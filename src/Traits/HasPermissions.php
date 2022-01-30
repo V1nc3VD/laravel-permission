@@ -291,7 +291,7 @@ trait HasPermissions
             return false;
         }
         
-        return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
+        return dd($this->permissions->contains($permission->getKeyName(), $permission->getKey()));
     }
 
     /**

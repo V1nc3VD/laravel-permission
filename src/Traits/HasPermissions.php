@@ -285,7 +285,14 @@ trait HasPermissions
             throw new PermissionDoesNotExist();
         }
 
-        return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
+        if ($this->permissions->contains($permission->getKeyName(), $permission->getKey())
+        && ! dd(str_starts_with($permission->getKey(), "-"))) {
+            return true;
+        }
+        else {
+            return false;
+        };
+        //return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
     }
 
     /**

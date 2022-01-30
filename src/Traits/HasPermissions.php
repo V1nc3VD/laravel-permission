@@ -273,6 +273,7 @@ trait HasPermissions
     {
         $permissionClass = $this->getPermissionClass();
         $negativePermissionName = "-".$permission->name;
+        dd($negativePermissionName);
 
 
         if (is_string($permission)) {
@@ -287,13 +288,11 @@ trait HasPermissions
             throw new PermissionDoesNotExist();
         }
         
-        if (! $this->permissions->contains('name', $negativePermissionName)) {
-            return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
-        }
-        
-        else {
+        if ($this->permissions->contains('name', $negativePermissionName)) {
             return false;
         }
+        
+        return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
     }
 
     /**

@@ -286,7 +286,7 @@ trait HasPermissions
         }
 
         if ($this->permissions->contains($permission->getKeyName(), $permission->getKey())
-        && ! dd(str_starts_with($permission->getKey(), "-"))) {
+        && ! dd(str_starts_with($permission->getKeyName(), "-"))) {
             return true;
         }
         else {

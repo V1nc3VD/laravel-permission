@@ -172,17 +172,18 @@ class PermissionRegistrar
         $this->permissions = $this->cache->remember(self::$cacheKey, self::$cacheExpirationTime, function () {
             // make the cache smaller using an array with only required fields
             return $this->getPermissionClass()->select('id', 'id as i', 'name as n', 'guard_name as g')
-                ->with('roles:id,id as i,name as n,guard_name as g')->get()
+                ->with('roles:id,id as i,name as n,guard_name as g, is_positive as p')->get()
                 ->map(function ($permission) {
-                    return $permission->only('i', 'n', 'g') +
-                        ['r' => $permission->roles->map->only('i', 'n', 'g')->all()];
+                    return $permission->only('i', 'n', 'g', 'p') +
+                        ['r' => $permission->roles->map->only('i', 'n', 'g', 'p')->all()];
                 })->all();
         });
 
         if (is_array($this->permissions)) {
             $this->permissions = $this->getPermissionClass()::hydrate(
                 collect($this->permissions)->map(function ($item) {
-                    return ['id' => $item['i'] ?? $item['id'], 'name' => $item['n'] ?? $item['name'], 'guard_name' => $item['g'] ?? $item['guard_name']];
+                    return ['id' => $item['i'] ?? $item['id'], 'name' => $item['n'] ?? $item['name'], 
+                    'guard_name' => $item['g'] ?? $item['guard_name'], 'is_positive' => $item['p'] ?? $item['is_positive'] ];
                 })->all()
             )
             ->each(function ($permission, $i) {

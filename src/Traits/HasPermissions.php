@@ -272,6 +272,8 @@ trait HasPermissions
     public function hasDirectPermission($permission): bool
     {
         $permissionClass = $this->getPermissionClass();
+        $negativePermissionName = "-".$permission->name;
+
 
         if (is_string($permission)) {
             $permission = $permissionClass->findByName($permission, $this->getDefaultGuardName());
@@ -284,15 +286,14 @@ trait HasPermissions
         if (! $permission instanceof Permission) {
             throw new PermissionDoesNotExist();
         }
-        dd($permission->name);
 
-        if ($this->permissions->contains($permission->getKey(), $permission->getKey())
-        && ! dd(str_starts_with($permission->getKey(), "-"))) {
-            return true;
-        }
-        else {
+        if (! $this->permissions->contains($permission->getKey(), $permission->getKey())) {
             return false;
-        };
+        }
+        
+        if ($this->permissions->contains('name', $negativePermissionName)) {
+
+        }
         //return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
     }
 

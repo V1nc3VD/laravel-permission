@@ -259,7 +259,7 @@ trait HasPermissions
     protected function hasPermissionViaRole(Permission $permission): bool
     {
         $negativePermissionName = "-".$permission->name;
-        if ($this->permissions->contains('name', $negativePermissionName)) {
+        if (dd($this->permissions->contains('name', $negativePermissionName))) {
             return false;
         }
         return $this->hasRole($permission->roles);

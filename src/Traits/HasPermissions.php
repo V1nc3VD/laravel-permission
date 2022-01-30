@@ -284,9 +284,10 @@ trait HasPermissions
         if (! $permission instanceof Permission) {
             throw new PermissionDoesNotExist();
         }
+        dd($permission->getKeyName());
 
         if ($this->permissions->contains($permission->getKeyName(), $permission->getKey())
-        && ! dd(str_starts_with($permission->getKeyName(), "-"))) {
+        && ! dd(str_starts_with($permission->getKey(), "-"))) {
             return true;
         }
         else {

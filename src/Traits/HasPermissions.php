@@ -273,7 +273,7 @@ trait HasPermissions
     {
         $permissionClass = $this->getPermissionClass();
         $negativePermissionName = "-".$permission->name;
-        dd($negativePermissionName);
+
 
 
         if (is_string($permission)) {

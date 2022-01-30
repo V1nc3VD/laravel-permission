@@ -289,10 +289,7 @@ trait HasPermissions
         
         //check if permission is not overriden by negative permission
         return $this->permissions->where('is_positive', '1')
-        ->contains($permission->getKeyName(), $permission->getKey()) 
-        && $this->permissions->where('is_positive', '=!', '0')
         ->contains($permission->getKeyName(), $permission->getKey());
-
     }
 
     /**

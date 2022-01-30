@@ -274,8 +274,6 @@ trait HasPermissions
         $permissionClass = $this->getPermissionClass();
         $negativePermissionName = "-".$permission->name;
 
-
-
         if (is_string($permission)) {
             $permission = $permissionClass->findByName($permission, $this->getDefaultGuardName());
         }
@@ -292,7 +290,7 @@ trait HasPermissions
             return false;
         }
         
-        return false;
+        return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
     }
 
     /**

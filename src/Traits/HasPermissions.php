@@ -286,15 +286,12 @@ trait HasPermissions
         if (! $permission instanceof Permission) {
             throw new PermissionDoesNotExist();
         }
-
-        if (! $this->permissions->contains($permission->getKey(), $permission->getKey())) {
+        
+        if ($this->permissions->contains('name', $negativePermissionName)) {
             return false;
         }
         
-        if ($this->permissions->contains('name', $negativePermissionName)) {
-
-        }
-        //return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
+        return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
     }
 
     /**

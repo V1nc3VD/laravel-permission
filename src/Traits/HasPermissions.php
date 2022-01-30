@@ -274,7 +274,6 @@ trait HasPermissions
     public function hasDirectPermission($permission): bool
     {
         $permissionClass = $this->getPermissionClass();
-        $checkPermission = $this->permissions->contains($permission->getKeyName(), $permission->getKey());
 
         if (is_string($permission)) {
             $permission = $permissionClass->findByName($permission, $this->getDefaultGuardName());
@@ -289,7 +288,11 @@ trait HasPermissions
         }
         
         //check if permission is not overriden by negative permission
-        return $checkPermission->where('is_positive', 1) && $checkPermission->where('is_positive', '!=', 0);
+        return $this->permissions->where('is_positive', '1')
+        ->contains($permission->getKeyName(), $permission->getKey()) &&
+        $this->permissions->where('is_positive', '=!', '0')
+        ->contains($permission->getKeyName(), $permission->getKey());
+
     }
 
     /**
